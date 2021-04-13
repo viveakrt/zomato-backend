@@ -1,13 +1,9 @@
 const router = require("express").Router();
 const bcrypt = require('bcrypt');
 
-const {
-    customer: User
-} = require("../models");
+const { customer: User } = require("../models");
 
-const {
-    isEmail
-} = require("validator");
+const { isEmail } = require("validator");
 
 const jwt = require("jsonwebtoken");
 const { access_token } = require("../config");
@@ -73,6 +69,7 @@ router.post("/register", async (req, res) => {
 
 
 router.post("/login", async (req, res) => {
+
     let newUser;
 
     if (req.body.email) {
@@ -92,14 +89,22 @@ router.post("/login", async (req, res) => {
 
 
     if (userExists !== null) {
+        
         const validPass = await bcrypt.compare(req.body.password,userExists.password);
+
         if(!validPass){
-            return res.status(400).send("INVALID PASSWORD")
+            return res.status(400).json({
+                message: `INVALID PASSWORD`,
+            })
+            .end();
         }else{
             const token = jwt.sign({
                 email: userExists.email
             }, access_token);
-            res.header('auth-token', token).send(token).end();
+            res.header('auth-token', token).json({
+                "JWT token":token,
+            })
+            .end();
             return;
         }
     } else {
