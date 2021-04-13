@@ -1,12 +1,18 @@
 const router = require("express").Router();
 const bcrypt = require('bcrypt');
 
-const { customer: User } = require("../models");
+const {
+    customer: User
+} = require("../models");
 
-const { isEmail } = require("validator");
+const {
+    isEmail
+} = require("validator");
 
 const jwt = require("jsonwebtoken");
-const { access_token } = require("../config");
+const {
+    access_token
+} = require("../config");
 
 
 
@@ -34,37 +40,39 @@ router.post("/register", async (req, res) => {
             })
             .end();
         return;
-    }
-
-    //Checking if the user is already in the database
-    const emailExist = await User.findOne({
-        where: {
-            email: newUser.email,
-        },
-    });
-    if (emailExist !== null)
-        return res
-            .status(400)
-            .json({
-                message: `Email ${newUser.email} already exists`,
-            })
-            .end();
-
-
-    await User.create(newUser)
-        .then((userData) => {
-            res
-                .status(201)
+    } else {
+        //Checking if the user is already in the database
+        const emailExist = await User.findOne({
+            where: {
+                email: newUser.email,
+            },
+        });
+        if (emailExist !== null) {
+            return res
+                .status(400)
                 .json({
-                    userData,
+                    message: `Email ${newUser.email} already exists`,
                 })
                 .end();
-        })
-        .catch((err) => {
-            console.log(err);
+        } else {
 
-            res.sendStatus(500).end();
-        });
+            await User.create(newUser)
+                .then((userData) => {
+                    res
+                        .status(201)
+                        .json({
+                            userData,
+                        })
+                        .end();
+                })
+                .catch((err) => {
+                    console.log(err);
+
+                    res.sendStatus(500).end();
+                });
+        }
+    }
+
 });
 
 
@@ -89,22 +97,22 @@ router.post("/login", async (req, res) => {
 
 
     if (userExists !== null) {
-        
-        const validPass = await bcrypt.compare(req.body.password,userExists.password);
 
-        if(!validPass){
+        const validPass = await bcrypt.compare(req.body.password, userExists.password);
+
+        if (!validPass) {
             return res.status(400).json({
-                message: `INVALID PASSWORD`,
-            })
-            .end();
-        }else{
+                    message: `INVALID PASSWORD`,
+                })
+                .end();
+        } else {
             const token = jwt.sign({
                 email: userExists.email
             }, access_token);
             res.header('auth-token', token).json({
-                "JWT token":token,
-            })
-            .end();
+                    "JWT token": token,
+                })
+                .end();
             return;
         }
     } else {
