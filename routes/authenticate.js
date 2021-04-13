@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const bcrypt = require('bcrypt');
 
 const {
     customer: User
@@ -15,10 +16,13 @@ const { access_token } = require("../config");
 
 router.post("/register", async (req, res) => {
 
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt)
+
     const newUser = {
         customer_name: req.body.name,
         email: req.body.email,
-        password: req.body.password,
+        password: hashedPassword,
     };
 
     if (
@@ -49,15 +53,7 @@ router.post("/register", async (req, res) => {
                 message: `Email ${newUser.email} already exists`,
             })
             .end();
-    const userExist = await User.findOne({
-        where: {
-            customer_name: newUser.customer_name,
-        },
-    }).catch((err) => {
-        console.log(err);
 
-        res.sendStatus(500).end();
-    });
 
     await User.create(newUser)
         .then((userData) => {
@@ -78,6 +74,7 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
     let newUser;
+
     if (req.body.email) {
         newUser = {
             email: req.body.email,
@@ -88,15 +85,23 @@ router.post("/login", async (req, res) => {
     }
 
     const userExists = await User.findOne({
-        where: newUser,
+        where: {
+            email: newUser.email,
+        },
     });
 
+
     if (userExists !== null) {
-        const token = jwt.sign({
-            email: userExists.email
-        }, access_token);
-        res.header('auth-token', token).send(token).end();
-        return;
+        const validPass = await bcrypt.compare(req.body.password,userExists.password);
+        if(!validPass){
+            return res.status(400).send("INVALID PASSWORD")
+        }else{
+            const token = jwt.sign({
+                email: userExists.email
+            }, access_token);
+            res.header('auth-token', token).send(token).end();
+            return;
+        }
     } else {
         res
             .status(400)
