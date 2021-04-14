@@ -62,8 +62,8 @@ router.post("/register", async (req, res) => {
                         email: newUser.email
                     }, access_token);
                     res.header('auth-token', token).json({
-                            "JWT token": token,
-                            userData
+                            "jwtToken": token,
+                            "userData":userData
                         })
                         .status(201)
                         .end();
@@ -113,7 +113,8 @@ router.post("/login", async (req, res) => {
                 email: userExists.email
             }, access_token);
             res.header('auth-token', token).json({
-                    "JWT token": token,
+                    "jwtToken": token,
+                    "userData":userExists
                 })
                 .end();
             return;
