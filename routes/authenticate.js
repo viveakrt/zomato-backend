@@ -58,11 +58,14 @@ router.post("/register", async (req, res) => {
 
             await User.create(newUser)
                 .then((userData) => {
-                    res
-                        .status(201)
-                        .json({
-                            userData,
+                    const token = jwt.sign({
+                        email: newUser.email
+                    }, access_token);
+                    res.header('auth-token', token).json({
+                            "JWT token": token,
+                            userData
                         })
+                        .status(201)
                         .end();
                 })
                 .catch((err) => {
