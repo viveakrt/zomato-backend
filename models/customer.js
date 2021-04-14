@@ -1,3 +1,5 @@
+const { username } = require("../config");
+
 module.exports = (sequelize, DataTypes) => {
     const customer = sequelize.define("customer", {
 
@@ -39,6 +41,13 @@ module.exports = (sequelize, DataTypes) => {
         }
 
     });
+
+    customer.associate = models => {
+        customer.hasMany(models.customerHasLocation,{
+            onDelete:"cascade"
+        });
+        
+    }
 
     return customer;
 };
