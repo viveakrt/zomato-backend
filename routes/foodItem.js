@@ -1,23 +1,19 @@
 const verify = require('./verifyToken');
 const {
     restaurant,
-    foodItem
-} = require("../models")
+    foodItem,
+    location,
+    locationHasRestaurant
+} = require("../models");
+
 const router = require("express").Router();
 
-router.get("/:id", verify, (req, res) => {
+router.get("/:id", verify,  async (req, res) => {
     const id = Number(req.params.id)
-    console.log(id)
-    foodItem.findAll({
+    
+    const food = await foodItem.findAll({
             where: {
                 id_restaurant: id,
-            }
-        })
-        .then((restaurant) => {
-            if (restaurant.length > 0) {
-                res.status(200).json(restaurant)
-            } else {
-                res.sendStatus(404).end();
             }
         })
         .catch((err) => {
@@ -25,7 +21,23 @@ router.get("/:id", verify, (req, res) => {
 
             res.sendStatus(500).end();
         });
+    
 
+
+    const restaurantData = await restaurant.findByPk(id)
+		.catch((err) => {
+			console.log(err);
+
+			res
+				.status(500)
+				.json({
+					msg: `error Id is : ${id} `,
+				})
+				.end();
+		});
+
+    
+    return res.status(200).json({restaurantData,food}).end
 });
 
 router.get("/all/:id", verify, (req, res) => {

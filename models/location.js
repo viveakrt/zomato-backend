@@ -8,11 +8,11 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true,
     },
     latitude: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DOUBLE,
       allowNull: false
     },
     longitude: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DOUBLE,
       allowNull: false
     }
   }, {
