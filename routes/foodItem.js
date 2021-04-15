@@ -6,38 +6,46 @@ const {
     locationHasRestaurant
 } = require("../models");
 
+
 const router = require("express").Router();
 
-router.get("/:id", verify,  async (req, res) => {
+router.get("/:id", verify, async (req, res) => {
     const id = Number(req.params.id)
-    
-    const food = await foodItem.findAll({
+    try {
+        const food = await foodItem.findAll({
             where: {
                 id_restaurant: id,
             }
         })
-        .catch((err) => {
-            console.log(err);
 
-            res.sendStatus(500).end();
-        });
-    
+        // const locationData = await restaurant.findAll({
+
+        //     include: location,
+        // })
+
+        const restaurantData = await restaurant.findByPk(id)
+
+        res.status(200).json({
+            restaurantData,
+            food,
+
+        }).end()
+
+    } catch (err) {
+
+        console.log(err);
+
+        res
+            .status(500)
+            .json({
+                message:err.message,
+            })
+            .end();
+
+    }
 
 
-    const restaurantData = await restaurant.findByPk(id)
-		.catch((err) => {
-			console.log(err);
 
-			res
-				.status(500)
-				.json({
-					msg: `error Id is : ${id} `,
-				})
-				.end();
-		});
-
-    
-    return res.status(200).json({restaurantData,food}).end
 });
 
 router.get("/all/:id", verify, (req, res) => {
