@@ -6,8 +6,7 @@ const {
 } = require("../models");
 
 const {
-    isEmail,
-    isAlpha
+    isEmail
 } = require("validator");
 
 const jwt = require("jsonwebtoken");
@@ -42,16 +41,6 @@ router.post("/register", async (req, res) => {
                 .status(400)
                 .json({
                     message: "Use valid email Id",
-                })
-                .end();
-            return;
-        } else if (
-            !(isAlpha(newUser.customer_name))
-        ) {
-            res
-                .status(400)
-                .json({
-                    message: "Name required to be alphabet only",
                 })
                 .end();
             return;

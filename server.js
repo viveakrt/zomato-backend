@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const db = require("./models");
 const authRoute = require('./routes/authenticate');
 const restaurants = require("./routes/restaurant")
+const foodItem = require('./routes/foodItem');
 const cors = require('cors')
 
 dotenv.config();
@@ -20,6 +21,7 @@ app.use(cors(corsOptions));
 
 app.use("/user", authRoute);
 app.use("/", restaurants);
+app.use("/restaurant",foodItem)
 
 
 
