@@ -3,6 +3,7 @@ const app = express();
 const dotenv = require("dotenv");
 const db = require("./models");
 const authRoute = require('./routes/authenticate');
+const restaurants = require("./routes/restaurant")
 const cors = require('cors')
 
 dotenv.config();
@@ -17,7 +18,8 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use("/user", authRoute)
+app.use("/user", authRoute);
+app.use("/", restaurants);
 
 
 

@@ -4,7 +4,8 @@ module.exports = function(sequelize, DataTypes) {
     id_restaurant: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement:true
     },
     restaurant_name: {
       type: DataTypes.STRING(255),
@@ -14,13 +15,21 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(20),
       allowNull: false
     },
+    description: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
     email: {
       type: DataTypes.STRING(255),
       allowNull: false
     },
     restaurant_image: {
-      type: DataTypes.BLOB,
+      type: DataTypes.STRING(1000),
       allowNull: true
+    },
+    city_name:{
+      type: DataTypes.STRING(255),
+      allowNull:false
     }
   }, {
     sequelize,

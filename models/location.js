@@ -4,7 +4,8 @@ module.exports = function(sequelize, DataTypes) {
     id_location: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true,
     },
     latitude: {
       type: DataTypes.INTEGER,

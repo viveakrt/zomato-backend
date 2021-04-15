@@ -4,7 +4,8 @@ module.exports = function(sequelize, DataTypes) {
     item_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement:true
     },
     item_name: {
       type: DataTypes.STRING(255),
@@ -37,6 +38,10 @@ module.exports = function(sequelize, DataTypes) {
         model: 'restaurant',
         key: 'id_restaurant'
       }
+    },
+    item_image: {
+      type: DataTypes.STRING(1000),
+      allowNull:false,
     }
   }, {
     sequelize,

@@ -4,7 +4,8 @@ module.exports = function(sequelize, DataTypes) {
     id_in_order: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true,
     },
     PlaceOrder_id: {
       type: DataTypes.INTEGER,

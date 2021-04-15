@@ -4,7 +4,8 @@ module.exports = function(sequelize, DataTypes) {
     id_category: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true,
     },
     category_name: {
       type: DataTypes.STRING(255),
