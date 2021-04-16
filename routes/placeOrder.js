@@ -8,7 +8,7 @@ const {
 
 const router = require("express").Router();
 
-router.put('/placeOrder',verify,(req,res)=>{
+router.post('/placeOrder',verify,(req,res)=>{
     const val = req.body.items;
     placeOrder.create({
         order_time: new Date(),
