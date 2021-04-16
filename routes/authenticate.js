@@ -13,7 +13,10 @@ const jwt = require("jsonwebtoken");
 const {
     access_token
 } = require("../config");
-
+const verify = require('./verifyToken');
+const {
+    route
+} = require("./foodItem");
 
 
 router.post("/register", async (req, res) => {
@@ -160,6 +163,35 @@ router.post("/login", async (req, res) => {
         }
     }
 
+
+});
+
+
+router.put('/update', verify, async (req, res) => {
+
+    const token = req.header('authorization')
+    jwt.verify(token, access_token, (err, authorizedData) => {
+        if (err) {
+            res.status(403).json({
+                message: 'Could not connect to the protected route'
+            });
+        } else {
+            console.log(authorizedData)
+            const newData = {
+                customer_name : req.body.name,
+                phone_number : req.body.email,
+                profile_image : req.body.image
+            }
+            User.update(newData,
+                {
+                    where: {
+                        email : authorizedData.email
+                    }
+                }
+                )
+res.end()
+        }
+    })
 
 });
 
