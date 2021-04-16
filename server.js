@@ -1,15 +1,13 @@
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
-const cors = require('cors');
 const db = require("./models");
 
 
 const authRoute = require('./routes/authenticate');
 const restaurants = require("./routes/restaurant")
 const foodItem = require('./routes/foodItem');
-const search = require('./routes/search');
-
+const search = require('./routes/search')
 
 
 dotenv.config();
@@ -17,6 +15,8 @@ dotenv.config();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+
+const cors = require('cors');
 
 var corsOptions = {
     origin: "http://localhost:3000"
