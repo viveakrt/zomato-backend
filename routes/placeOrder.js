@@ -8,7 +8,7 @@ const {
 
 const router = require("express").Router();
 
-router.post('/placeOrder',verify,(req,res)=>{
+router.put('/placeOrder',verify,(req,res)=>{
     const val = req.body.items;
     placeOrder.create({
         order_time: new Date(),
@@ -18,9 +18,6 @@ router.post('/placeOrder',verify,(req,res)=>{
         comment: req.body.comment,
         address: req.body.address
     }).then((data) => {
-
-        
-        
         Object.keys(val).forEach(element => {
             inOrder.create({
                 PlaceOrder_id:data.dataValues.id_place_order,
