@@ -9,6 +9,7 @@ const authRoute = require('./routes/authenticate');
 const restaurants = require("./routes/restaurant")
 const foodItem = require('./routes/foodItem');
 const search = require('./routes/search')
+const review = require("./routes/review")
 
 
 dotenv.config();
@@ -30,7 +31,7 @@ app.use("/", restaurants);
 app.use("/restaurant", foodItem);
 app.use("/search", search);
 app.use("/",placeOrder)
-
+app.use("/",review)
 
 
 db.sequelize

@@ -3,6 +3,7 @@ const {
     restaurant,
     foodItem,
     location,
+    review,
 } = require("../models");
 
 
@@ -19,14 +20,18 @@ router.get("/:id", verify, async (req, res) => {
 
         const restaurantData = await restaurant.findByPk(id,{
 
-            include: {
+            include: [{
                 model: location,
                 as: "Location_idLocation_locations",
                 attributes: ['latitude','longitude'],
                 through: {
                     attributes: [],
                 }
-            }
+            },{
+                model: review,
+                as: "reviews",
+                attributes: ['rating','comment'],
+            }]
         })
 
         res.status(200).json({

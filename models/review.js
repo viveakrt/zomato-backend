@@ -15,12 +15,12 @@ module.exports = function(sequelize, DataTypes) {
         key: 'id_customer'
       }
     },
-    item_id: {
+    id_restaurant: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'foodItem',
-        key: 'item_id'
+        model: 'restaurant',
+        key: 'id_restaurant'
       }
     },
     rating: {
@@ -55,7 +55,7 @@ module.exports = function(sequelize, DataTypes) {
         name: "fk_Review_MenuItem1_idx",
         using: "BTREE",
         fields: [
-          { name: "item_id" },
+          { name: "id_restaurant" },
         ]
       },
     ]

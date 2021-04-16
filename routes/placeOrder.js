@@ -10,8 +10,6 @@ const router = require("express").Router();
 
 router.put('/placeOrder',verify,(req,res)=>{
     const val = req.body.items;
-
-    console.log(val)
     placeOrder.create({
         order_time: new Date(),
         restaurant_id: req.body.restaurantId,
