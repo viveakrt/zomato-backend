@@ -74,8 +74,8 @@ db.customer.hasMany(review, { as: "reviews", foreignKey: "id_customer"});
 db.inOrder.belongsTo(foodItem, { as: "Food_item", foreignKey: "Food_item_id"});
 db.foodItem.hasMany(inOrder, { as: "inOrders", foreignKey: "Food_item_id"});
 
-db.review.belongsTo(foodItem, { as: "item", foreignKey: "item_id"});
-db.foodItem.hasMany(review, { as: "reviews", foreignKey: "item_id"});
+db.review.belongsTo(restaurant, { as: "item", foreignKey: "id_restaurant"});
+db.restaurant.hasMany(review, { as: "reviews", foreignKey: "id_restaurant"});
 
 db.locationHasCustomer.belongsTo(location, { as: "id_location_location", foreignKey: "id_location"});
 db.location.hasMany(locationHasCustomer, { as: "locationHasCustomers", foreignKey: "id_location"});

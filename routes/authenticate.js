@@ -178,18 +178,16 @@ router.put('/update', verify, async (req, res) => {
         } else {
             console.log(authorizedData)
             const newData = {
-                customer_name : req.body.name,
-                phone_number : req.body.email,
-                profile_image : req.body.image
+                customer_name: req.body.name,
+                phone_number: req.body.email,
+                profile_image: req.body.image
             }
-            User.update(newData,
-                {
-                    where: {
-                        email : authorizedData.email
-                    }
+            User.update(newData, {
+                where: {
+                    email: authorizedData.email
                 }
-                )
-res.end()
+            })
+            res.end()
         }
     })
 
