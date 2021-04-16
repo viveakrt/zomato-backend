@@ -1,7 +1,6 @@
 const verify = require('./verifyToken');
 const {
     restaurant,
-    foodItem
 } = require("../models");
 const {
     Op

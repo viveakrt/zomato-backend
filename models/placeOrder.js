@@ -34,7 +34,11 @@ module.exports = function(sequelize, DataTypes) {
     comment: {
       type: DataTypes.STRING(255),
       allowNull: true
-    }
+    },
+    address: {
+      type: DataTypes.STRING(255),
+      allowNull: false
+    },
   }, {
     sequelize,
     tableName: 'placeOrder',
