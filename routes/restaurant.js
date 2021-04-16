@@ -35,7 +35,9 @@ router.get("/all", verify, (req, res) => {
         .catch((err) => {
             console.log(err);
 
-            res.sendStatus(500).end();
+            res.sendStatus(500).json({
+                message:err
+            }).end();
         });
 });
 
