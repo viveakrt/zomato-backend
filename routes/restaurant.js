@@ -1,12 +1,22 @@
 const verify = require('./verifyToken');
 const {
-    restaurant
-} = require("../models")
+    restaurant,
+    location
+} = require("../models");
 const router = require("express").Router();
 
 router.get("/all", verify, (req, res) => {
 
-    restaurant.findAll()
+    restaurant.findAll({
+
+        include: {
+            model: location,
+            as: "Location_idLocation_locations",
+            attributes: ['latitude','longitude'],
+            through: {
+                attributes: [],
+            }
+        }})
         .then((restaurant) => {
             if (restaurant.length > 0) {
                 res.status(200).json(restaurant).end();
@@ -26,7 +36,16 @@ router.get("/all/:id", verify, (req, res) => {
     restaurant.findAll({
             where: {
                 city_name: city,
-            }
+            },
+            
+                include: {
+                    model: location,
+                    as: "Location_idLocation_locations",
+                    attributes: ['latitude','longitude'],
+                    through: {
+                        attributes: [],
+                    }
+                }
         })
         .then((restaurant) => {
             if (restaurant.length > 0) {
