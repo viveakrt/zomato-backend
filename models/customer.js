@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  const customer=sequelize.define('customer', {
+  return sequelize.define('customer', {
     id_customer: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -68,6 +68,4 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
-  
-  return customer
 };
