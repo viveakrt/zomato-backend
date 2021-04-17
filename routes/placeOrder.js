@@ -38,7 +38,7 @@ router.put('/placeOrder', verify, (req, res) => {
         })
 })
 
-router.get('/myOrder', verify, (req, res) => {
+router.post('/myOrder', verify, (req, res) => {
     const id = req.body.customerId;
     placeOrder.findAll({
             where: {
