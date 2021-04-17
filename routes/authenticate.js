@@ -176,10 +176,10 @@ router.put('/update', verify, async (req, res) => {
                 message: 'Could not connect to the protected route'
             });
         } else {
-            console.log(authorizedData)
+            
             const newData = {
                 customer_name: req.body.name,
-                phone_number: req.body.email,
+                phone_number: req.body.phone,
                 profile_image: req.body.image
             }
             User.update(newData, {
@@ -187,7 +187,9 @@ router.put('/update', verify, async (req, res) => {
                     email: authorizedData.email
                 }
             })
-            res.end()
+            res.status(200).json({
+                message:"Profile Updated"
+            }).end()
         }
     })
 
