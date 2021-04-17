@@ -3,7 +3,8 @@ const dotenv = require('dotenv');
 dotenv.config();
 const {
     placeOrder,
-    inOrder
+    inOrder,
+    restaurant,
 } = require("../models");
 const jwt = require("jsonwebtoken");
 const nodemailer = require('nodemailer');
@@ -73,7 +74,7 @@ router.put('/placeOrder', verify, (req, res) => {
             const mailOptions = {
                 from: {
                     name: 'Zomato',
-                    address: 'noreply@zomato.com'
+                    address: 'noreply@zomato-clonee.com'
                 },
                 to: {
                     name: "Foodies",
@@ -95,15 +96,24 @@ router.put('/placeOrder', verify, (req, res) => {
     });
 });
 
-router.post('/myOrder', verify, (req, res) => {
+router.post('/myOrder', verify,  (req, res) => {
     const id = req.body.customerId;
     placeOrder.findAll({
             where: {
                 customer_id: id
             }
-        }).then((order) => {
+        }).then( async (order) => {
+            console.log()
             if (order.length > 0) {
-                res.status(200).json(order).end();
+                let rest=[];
+                for(i=0;i<order.length;i++){
+                    rest[i] = await restaurant.findByPk(order[i].restaurant_id)
+                }
+
+                res.status(200).json({
+                    order,
+                    rest
+                }).end();
             } else {
                 res.sendStatus(404).json({
                     message: "NOT FOUND"
